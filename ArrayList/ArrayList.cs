@@ -68,7 +68,10 @@ namespace ArrayLists
 
         public void AddValue(int value)
         {
-            Resize();
+            if (Length>=_array.Length)
+            {
+               Resize();
+            }
 
             _array[Length] = value;
 
@@ -90,11 +93,16 @@ namespace ArrayLists
 
         public void AddValueByIndex(int value, int index) //Ресайз во время добавления ставим в начало
         {
-            if ((index == 0 && Length == 0) || (index < Length && index >= 0))
+            
+            if (index <= Length && index >= 0)
             {
-                Resize();
 
-                for (int i = Length - 1; i >= index; i--)
+                if (Length >= _array.Length)
+                {
+                Resize();
+                }
+
+                for (int i = Length-1; i >= index; i--)
                 {
                     _array[i + 1] = _array[i];
                 }
@@ -102,9 +110,14 @@ namespace ArrayLists
                 _array[index] = value;
 
                 ++Length;
+
+
+            }
+            else
+            {
+               throw new IndexOutOfRangeException();
             }
 
-            throw new IndexOutOfRangeException();
         }
 
         public void RemoveLastElement() //Ресайз во время удаления ставим в конец
@@ -117,9 +130,9 @@ namespace ArrayLists
         public void RemoveFirstElement()
         {
 
-            for (int i = Length - 1; i >= 0; i--)
+            for (int i = 1; i >= 0; i++)
             {
-                _array[i + 1] = _array[i];
+                _array[i] = _array[i-1];
             }
 
             Length--;
@@ -129,27 +142,27 @@ namespace ArrayLists
 
         public void RemoveOneElementByIndex(int index)
         {
-            //if (index < Length && index >= 0)
-            //{
-
-            //    for (int i = Length - 1; i <= index; i--)
-            //    {
-            //        _array[i + 1] = _array[i];
-            //    }
-
-            //    Length--;
-            //    Resize();
-            //}
-            if ((index == 0 && Length == 0) || (index < Length && index >= 0))
+            if (index < Length && index >= 0)
             {
-                if (!(Length == 0))
+
+                for (int i = index; i < Length; i++)
                 {
-                    Length--;
-                    ShiftLeft(index, shiftByOne);
+                    _array[i] = _array[i+1];
                 }
 
+                Length--;
                 Resize();
             }
+            //if ((index == 0 && Length == 0) || (index < Length && index >= 0))
+            //{
+            //    if (!(Length == 0))
+            //    {
+            //        Length--;
+            //        ShiftLeft(index, shiftByOne);
+            //    }
+
+            //    Resize();
+            //}
             else
             {
                 throw new IndexOutOfRangeException();
@@ -171,11 +184,12 @@ namespace ArrayLists
             if (Nvalue < Length && Nvalue >= 0)
             {
 
-                for (int i = Nvalue + 1; i < Length - 1; i -= Nvalue)
+                for (int i = Nvalue; i <= Length; i++)
                 {
-                    _array[i + Nvalue] = _array[i];
+                    _array[i-Nvalue] = _array[i];
                 }
 
+                Length -= Nvalue;
                 Resize();
             }
         }
@@ -185,17 +199,19 @@ namespace ArrayLists
             if (Index < Length && Index >= 0 && Length-Nvalue>0)
             {
 
-                for (int i = Index + Nvalue; i <= Length - 1; i++)
+                for (int i = Index + Nvalue; i <= Length; i++)
                 {
                     _array[i - Nvalue] = _array[i];
                 }
 
+                Length -= Nvalue;
                 Resize();
 
-                Length -= Nvalue;
             }
-
-            throw new IndexOutOfRangeException();
+            else
+            {
+              throw new IndexOutOfRangeException();
+            }
         }
 
         public int GetFirstIndexByValue(int value)
@@ -375,7 +391,7 @@ namespace ArrayLists
         {
             if (Length >= _array.Length)
             {
-                int newLenght = (int)(_array.Length * 1.33 + 1);
+                int newLenght = (int)(Length * 1.33 + 1);
                 int[] tmpArray = new int[newLenght];
 
                 for (int i = 0; i < Length; i++)
@@ -385,18 +401,18 @@ namespace ArrayLists
 
                 _array = tmpArray;
             }
-            else
-            {
-                int newLenght = (int)(_array.Length * 0.7 + 1);
-                int[] tmpArray = new int[newLenght];
+            //else
+            //{
+            //    int newLenght = (int)(Length * 0.7 + 1);
+            //    int[] tmpArray = new int[newLenght];
 
-                for (int i = 0; i < Length; i++)
-                {
-                    tmpArray[i] = _array[i];
-                }
+            //    for (int i = 0; i + 1 < _array.Length; i++)
+            //    {
+            //        tmpArray[i] = _array[i];
+            //    }
 
-                _array = tmpArray;
-            }
+            //    _array = tmpArray;
+            //}
 
 
         }
@@ -407,6 +423,7 @@ namespace ArrayLists
             {
                 _array[i] = _array[i - nElements];
             }
+
         }
 
         
@@ -416,6 +433,39 @@ namespace ArrayLists
             {
                 _array[i] = _array[i + nElements];
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            MyArrayList list = (MyArrayList)obj;
+            if (this.Length != list.Length)
+            {
+
+                return false;
+            }
+
+            for (int i = 0; i < Length; i++)
+            {
+                if (this._array[i] != list._array[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public override string ToString()
+        {
+            string result = string.Empty;
+            for (int i = 0; i < Length; i++)
+            {
+                result += _array[i] + " ";
+
+            }
+
+            result.Trim();
+            return result;
         }
     }
 }

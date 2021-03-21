@@ -1,0 +1,9 @@
+C:\Users\Сергей\source\repos\ListApp\ArrayList\bin\Debug\netcoreapp2.1\Lists.deps.json
+C:\Users\Сергей\source\repos\ListApp\ArrayList\bin\Debug\netcoreapp2.1\Lists.dll
+C:\Users\Сергей\source\repos\ListApp\ArrayList\bin\Debug\netcoreapp2.1\Lists.pdb
+C:\Users\Сергей\source\repos\ListApp\ArrayList\obj\Debug\netcoreapp2.1\Lists.csprojAssemblyReference.cache
+C:\Users\Сергей\source\repos\ListApp\ArrayList\obj\Debug\netcoreapp2.1\Lists.csproj.CoreCompileInputs.cache
+C:\Users\Сергей\source\repos\ListApp\ArrayList\obj\Debug\netcoreapp2.1\Lists.AssemblyInfoInputs.cache
+C:\Users\Сергей\source\repos\ListApp\ArrayList\obj\Debug\netcoreapp2.1\Lists.AssemblyInfo.cs
+C:\Users\Сергей\source\repos\ListApp\ArrayList\obj\Debug\netcoreapp2.1\Lists.dll
+C:\Users\Сергей\source\repos\ListApp\ArrayList\obj\Debug\netcoreapp2.1\Lists.pdb
