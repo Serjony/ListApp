@@ -34,9 +34,9 @@ namespace ArrayLists
 
         private int[] _array;
 
-        private const int indexZero = 0;
+        //private const int indexZero = 0;
 
-        private const int shiftByOne = 1;
+        //private const int shiftOne = 1;
 
         public MyArrayList()
         {
@@ -66,7 +66,7 @@ namespace ArrayLists
 
 
 
-        public void AddValue(int value)
+        public void AddValueToLast(int value)
         {
             if (Length>=_array.Length)
             {
@@ -80,18 +80,22 @@ namespace ArrayLists
 
         public void AddValueToStart(int value)
         {
-            Resize();
+            if (Length >= _array.Length)
+            {
+                Resize();
+            }
 
-            for (int i = Length - 1; i >= 0; i--)
+            for (int i = Length-1; i >= 0; i--)
             {
                 _array[i + 1] = _array[i];
             }
-            _array[0] = _array[value];
+
+            _array[0] = value;
 
             ++Length;
         }
 
-        public void AddValueByIndex(int value, int index) //Ресайз во время добавления ставим в начало
+        public void AddValueByIndex(int value, int index) 
         {
             
             if (index <= Length && index >= 0)
@@ -120,9 +124,12 @@ namespace ArrayLists
 
         }
 
-        public void RemoveLastElement() //Ресайз во время удаления ставим в конец
+        public void RemoveLastElement() 
         {
-            Length--;
+            if (!(Length == 0))
+            {
+                Length--;
+            }
 
             Resize();
         }
@@ -130,12 +137,15 @@ namespace ArrayLists
         public void RemoveFirstElement()
         {
 
-            for (int i = 1; i >= 0; i++)
+            for (int i = 1; i <= Length; i++)
             {
-                _array[i] = _array[i-1];
+                _array[i-1] = _array[i];
             }
 
-            Length--;
+            if (!(Length == 0))
+            {
+                Length--;
+            }
 
             Resize();
         }
@@ -151,18 +161,10 @@ namespace ArrayLists
                 }
 
                 Length--;
+
                 Resize();
             }
-            //if ((index == 0 && Length == 0) || (index < Length && index >= 0))
-            //{
-            //    if (!(Length == 0))
-            //    {
-            //        Length--;
-            //        ShiftLeft(index, shiftByOne);
-            //    }
-
-            //    Resize();
-            //}
+           
             else
             {
                 throw new IndexOutOfRangeException();
@@ -227,7 +229,7 @@ namespace ArrayLists
             return -1;
         }
 
-        public void GetRevers(int value)
+        public void GetRevers()
         {
             int temp;
             int swapIndex;
@@ -243,37 +245,7 @@ namespace ArrayLists
             }
         }
 
-        public int FindValueOfMaxElem(int value)
-        {
-            //int max = _array[0];
-
-            //for (int i = 1; i < _array.Length; i++)
-            //{
-            //    if (max < _array[i])
-            //    {
-            //        max = _array[i];
-            //    }
-            //}
-
-            return FindIndexOfMaxElem(value);
-        }
-
-        public int FindValueOfMinElem(int value)
-        {
-            //int min = _array[0];
-
-            //for (int i = 1; i < _array.Length; i++)
-            //{
-            //    if (min > _array[i])
-            //    {
-            //        min = _array[i];
-            //    }
-            //}
-
-            return FindIndexOfMinElem(value);
-        }
-
-        public  int FindIndexOfMaxElem(int value)
+        public int FindIndexOfMaxElem()
         {
             if (!(Length == 0))
             {
@@ -290,12 +262,13 @@ namespace ArrayLists
 
                 return maxIndexOfElement;
             }
-
-            throw new ArgumentException();
-
+            else
+            {
+              throw new ArgumentException();
+            }
         }
 
-        public int FindIndexOfMinElem(int value)
+        public int FindIndexOfMinElem()
         {
             if (!(Length == 0))
             {
@@ -312,8 +285,20 @@ namespace ArrayLists
 
                 return minIndexOfElement;
             }
+            else
+            {
+              throw new ArgumentException();
+            }
+        }
 
-            throw new ArgumentException();
+        public int FindValueOfMaxElem()
+        {  
+            return FindIndexOfMaxElem();
+        }
+
+        public int FindValueOfMinElem()
+        {
+            return FindIndexOfMinElem();
         }
 
         public void GetSortByAscending()
@@ -368,7 +353,12 @@ namespace ArrayLists
 
         public void RemoveByValueAll(int value)
         {
-
+            int indexOfElements = GetFirstIndexByValue(value);
+            while (indexOfElements != -1)
+            {
+                RemoveOneElementByIndex(indexOfElements);
+                indexOfElements = GetFirstIndexByValue(value);
+            }
         }
 
         public void AddListToTheEnd()
@@ -376,7 +366,7 @@ namespace ArrayLists
 
         }
 
-        public void AddListToBegin()
+        public void AddListToStart()
         {
 
         }
@@ -401,39 +391,24 @@ namespace ArrayLists
 
                 _array = tmpArray;
             }
-            //else
-            //{
-            //    int newLenght = (int)(Length * 0.7 + 1);
-            //    int[] tmpArray = new int[newLenght];
-
-            //    for (int i = 0; i + 1 < _array.Length; i++)
-            //    {
-            //        tmpArray[i] = _array[i];
-            //    }
-
-            //    _array = tmpArray;
-            //}
-
-
         }
 
-        private void ShiftRight(int index, int nElements)
-        {
-            for (int i = Length - 1; i > index; --i)
-            {
-                _array[i] = _array[i - nElements];
-            }
+        //private void ShiftRight(int index, int nElements)
+        //{
+        //    for (int i = Length - 1; i > index; --i)
+        //    {
+        //        _array[i] = _array[i - nElements];
+        //    }
 
-        }
-
+        //}
         
-        private void ShiftLeft(int index, int nElements)
-        {
-            for (int i = index; i < Length; ++i)
-            {
-                _array[i] = _array[i + nElements];
-            }
-        }
+        //private void ShiftLeft(int index, int nElements)
+        //{
+        //    for (int i = index; i < Length; ++i)
+        //    {
+        //        _array[i] = _array[i + nElements];
+        //    }
+        //}
 
         public override bool Equals(object obj)
         {
