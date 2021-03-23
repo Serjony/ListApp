@@ -361,19 +361,65 @@ namespace ArrayLists
             }
         }
 
-        public void AddListToTheEnd()
+        public void AddListToTheEnd(MyArrayList list)
         {
-
+            if (list != null && list.Length != 0)
+            {
+                int lastIndex = Length;
+                AddListByIndex(list, lastIndex);
+            }
         }
 
-        public void AddListToStart()
+        public void AddListToStart(MyArrayList list)
         {
-
+            if (list != null && list.Length != 0)
+            {
+                int firstIndex = 0;
+                AddListByIndex(list, firstIndex);
+            }
         }
 
-        public void AddListByIndex()
+        public void AddListByIndex(MyArrayList list, int index)
         {
+            if (list != null && list.Length != 0)
+            {
+                if (index >= 0 && index <= Length)
+                {
+                    Length += list.Length;
+                    if (Length >= _array.Length)
+                    {
+                        Resize();
+                    }
 
+                    int tempLength = list.Length;
+                    for (int i = Length - 1; i >= index; i--)
+                    {
+                        if (i + tempLength < _array.Length)
+                        {
+                            _array[i + tempLength] = _array[i];
+                        }
+                    }
+
+                    int count = 0;
+                    for (int i = index; i < Length; i++)
+                    {
+                        if (count < list.Length)
+                        {
+                            _array[i] = list[count++];
+                        }
+                    }
+                }
+
+                else
+                {
+                    throw new IndexOutOfRangeException();
+                }
+            }
+
+            else
+            {
+                throw new ArgumentException("List no contains elements");
+            }
         }
 
 
@@ -384,7 +430,7 @@ namespace ArrayLists
                 int newLenght = (int)(Length * 1.33 + 1);
                 int[] tmpArray = new int[newLenght];
 
-                for (int i = 0; i < Length; i++)
+                for (int i = 0; i < _array.Length; i++)
                 {
                     tmpArray[i] = _array[i];
                 }
@@ -392,23 +438,6 @@ namespace ArrayLists
                 _array = tmpArray;
             }
         }
-
-        //private void ShiftRight(int index, int nElements)
-        //{
-        //    for (int i = Length - 1; i > index; --i)
-        //    {
-        //        _array[i] = _array[i - nElements];
-        //    }
-
-        //}
-        
-        //private void ShiftLeft(int index, int nElements)
-        //{
-        //    for (int i = index; i < Length; ++i)
-        //    {
-        //        _array[i] = _array[i + nElements];
-        //    }
-        //}
 
         public override bool Equals(object obj)
         {

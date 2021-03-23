@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Lists
 {
-    class LinkedList
+    public class LinkedList
     {
         public int Length { get; private set; }
         public int this[int index]
@@ -81,6 +81,42 @@ namespace Lists
             _tail = _tail.Next;
         }
 
+        public void AddValueToStart(int value)
+        {
+            Length++;
+
+            Node first = new Node(value);
+
+            first.Next = _root;
+            _root = first;
+        }
+
+        public void AddValueByIndex(int value, int index)
+        {
+            if (Length !=0)
+            {
+                
+                Node nodeByIndex = new Node(value);
+
+                Node current = GetNodeByIndex(index-1);
+
+                nodeByIndex.Next = current.Next;
+                current.Next = nodeByIndex.Next;
+            }
+            else
+            {
+                _root = new Node(value);
+                _tail = _root;
+            }
+
+            Length++;
+        }
+
+        public void RemoveLastElement()
+        {
+            
+        }
+
         public void RemoveFirst()
         {
             _root = _root.Next;
@@ -120,30 +156,69 @@ namespace Lists
             }
         }
 
+        //public override bool Equals1(object obj)
+        //{
+        //    LinkedList list = (LinkedList)obj;
+
+        //    if (this.Length != list.Length)
+        //    {
+        //        return false;
+        //    }
+
+        //    Node currentThis = this._root;
+        //    Node currentList = list._root;
+
+        //    do
+        //    {
+        //        if (currentThis.Value != currentList.Value)
+        //        {
+        //            return false;
+        //        }
+        //        currentList = currentList.Next;
+        //        currentThis = currentThis.Next;
+        //    }
+        //    while (!(currentThis.Next is null));
+
+        //    return true;
+        //}
+
         public override bool Equals(object obj)
         {
-            LinkedList list = (LinkedList)obj;
-
-            if (this.Length != list.Length)
+            if (obj is LinkedList || obj is null)
             {
-                return false;
-            }
-
-            Node currentThis = this._root;
-            Node currentList = list._root;
-
-            do
-            {
-                if (currentThis.Value != currentList.Value)
+                LinkedList list = (LinkedList)obj;
+                bool isEqual = false;
+                if (this.Length == list.Length)
                 {
-                    return false;
+                    isEqual = true;
+                    Node currentThis = this._root;
+                    Node currentList = list._root;
+                    while (!(currentThis is null))
+                    {
+                        if (currentThis.Value != currentList.Value)
+                        {
+                            isEqual = false;
+                            break;
+                        }
+                        currentThis = currentThis.Next;
+                        currentList = currentList.Next;
+                    }
                 }
-                currentList = currentList.Next;
-                currentThis = currentThis.Next;
+                return isEqual;
             }
-            while (!(currentThis.Next is null));
 
-            return true;
+            throw new ArgumentException("obj is not LinkedList");
+        }
+
+        private Node GetNodeByIndex(int index)
+        {
+            Node current = _root;
+
+            for (int i = 1; i <= index; i++)
+            {
+                current = current.Next;
+            }
+            return current;
         }
     }
 }
