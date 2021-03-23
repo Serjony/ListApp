@@ -5774,9 +5774,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Сергей\\source\\repos\\ListApp\\ArrayListTest\\ArrayListTest.csproj",
-      "projectName": "ArrayListTest",
-      "projectPath": "C:\\Users\\Сергей\\source\\repos\\ListApp\\ArrayListTest\\ArrayListTest.csproj",
+      "projectUniqueName": "C:\\Users\\Сергей\\source\\repos\\ListApp\\ArrayListTest\\ListsTest.csproj",
+      "projectName": "ListsTest",
+      "projectPath": "C:\\Users\\Сергей\\source\\repos\\ListApp\\ArrayListTest\\ListsTest.csproj",
       "packagesPath": "C:\\Users\\Сергей\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Сергей\\source\\repos\\ListApp\\ArrayListTest\\obj\\",
       "projectStyle": "PackageReference",

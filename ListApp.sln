@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29201.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lists", "ArrayList\Lists.csproj", "{73A0DC10-12F8-4699-B0C8-74D8F3339D74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lists", "ArrayList\Lists.csproj", "{73A0DC10-12F8-4699-B0C8-74D8F3339D74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayListTest", "ArrayListTest\ArrayListTest.csproj", "{C76AA410-1C8C-4E6F-B10D-BCEA8C3E27DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ListsTest", "ArrayListTest\ListsTest.csproj", "{C76AA410-1C8C-4E6F-B10D-BCEA8C3E27DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
