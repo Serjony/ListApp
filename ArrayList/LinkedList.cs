@@ -42,7 +42,6 @@ namespace Lists
             _root = null;
             _tail = null;
         }
-
         public LinkedList(int value)
         {
             Length = 1;
@@ -93,48 +92,258 @@ namespace Lists
 
         public void AddValueByIndex(int value, int index)
         {
-            if (Length !=0)
+            if (index>=0 && index<=Length)
             {
-                
-                Node nodeByIndex = new Node(value);
+                if (Length != 0)
+                {
+                    if (index == 0)
+                    {
+                         AddValueToStart(value);
+                         Length--;
+                    }
+                    else
+                    {
+                        Node nodeByIndex = new Node(value);
 
-                Node current = GetNodeByIndex(index-1);
+                        Node current = GetNodeByIndex(index - 1);
 
-                nodeByIndex.Next = current.Next;
-                current.Next = nodeByIndex.Next;
+                        nodeByIndex.Next = current.Next;
+                        current.Next = nodeByIndex;
+                    }
+                }
+                else
+                {
+                    _root = new Node(value);
+                    _tail = _root;
+                }
+
+                Length++;
             }
             else
             {
-                _root = new Node(value);
-                _tail = _root;
+                throw new IndexOutOfRangeException("Error");
             }
-
-            Length++;
+            
         }
 
         public void RemoveLastElement()
         {
-            
+            RemoveByIndex (Length - 1);
         }
 
         public void RemoveFirst()
         {
             _root = _root.Next;
+            Length--;
         }
 
         public void RemoveByIndex(int index)
         {
+            if (index >= 0 && index <= Length)
+            {
+                if (Length != 0)
+                {
+                    if (index!=0)
+                    {
+                        Node current = _root;
+
+                        for (int i = 1; i < index; i++)
+                        {
+                            current = current.Next;
+                        }
+
+                        current.Next = current.Next.Next;
+
+                        Length--;
+                    }
+                    else
+                    {
+                        RemoveFirst();
+                    }
+                    
+                }
+                else
+                {
+                    Length = 0;
+                    _root = null;
+                    _tail = null;
+                }
+            }
+            else
+            {
+                throw new IndexOutOfRangeException("Error");
+            }
+        }
+
+        public void RemovNElementsFromLast(int nvalue) //Check
+        {
+            if (nvalue != Length)
+            {
+                Node current = GetNodeByIndex(Length - nvalue);
+                current.Next = _tail;
+
+                Length -= nvalue;
+            }
+            else
+            {
+                Length = 0;
+                _root = null;
+                _tail = null;
+            }
+        }
+
+        public void RemovNElementsFromStart(int nvalue)
+        {
+            if (nvalue!=Length)
+            {
+                Node current = GetNodeByIndex(nvalue - 1);
+                _root = current.Next;
+
+                Length -= nvalue;
+            }
+            else
+            {
+                Length = 0;
+                _root = null;
+                _tail = null;
+            }
+        }
+
+        public void RemoveByIndexNElements(int nvalue, int index)
+        {
+            if (index >= 0 && index < Length)
+            {
+                if (index == 0)
+                {
+                    RemovNElementsFromStart(nvalue);
+                }
+
+                else if (nvalue == Length - 1)
+                {
+                    RemovNElementsFromLast(nvalue);
+                }
+
+                else if (nvalue>0)
+                {
+                    if (!(nvalue+index>=Length))
+                    {
+                        Node startNode = GetNodeByIndex(index - 1);
+                        Node finishNode = GetNodeByIndex(index + nvalue);
+
+                        startNode.Next = finishNode;
+
+                        Length -= nvalue;
+                    }
+                    else
+                    {
+                        Node current = GetNodeByIndex(index);
+
+                        current.Next = null;
+                        _tail = current;
+                        Length = index;
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid value!");
+                }
+            }
+            else
+            {
+                throw new IndexOutOfRangeException("Error!");
+            }
+        }
+
+        public int GetIndexByValue(int value)
+        {
             Node current = _root;
 
-            for (int i = 1; i < index; i++)
+            for (int i = 0; i < Length; i++)
             {
+                if (current.Value == value)
+                {
+                    return i;
+                }
+
                 current = current.Next;
             }
 
-            current.Next = current.Next.Next;
-
-            Length--;
+            return -1;
         }
+
+        public void GetChangeByIndex(int index, int value)
+        {
+            if (index >= 0 && index <= Length)
+            {
+                Node current = GetNodeByIndex(index);
+
+                current.Value = value;
+            }
+            else
+            {
+                throw new IndexOutOfRangeException("Error");
+            }
+            
+        }
+
+        public void Revers()
+        {
+
+        }
+
+        public int FindIndexOfMaxElem()
+        {
+            Node current = _root;
+            int maxIndex = 0;
+            int temp = 0;
+
+            for (int i = 0; i < Length; i++)
+            {
+                if (temp < current.Value)
+                {
+                    maxIndex = i;
+                    temp = current.Value;
+                }
+
+                current = current.Next;
+            }
+
+            return maxIndex;
+        }
+
+        public int FindIndexOfMinElem()
+        {
+            {
+
+                Node current = _root;
+                int minIndex = 0;
+                int temp = current.Value;
+
+                for (int i = 0; i < Length; i++)
+                {
+                    if (temp > current.Value)
+                    {
+                        minIndex = i;
+                        temp = current.Value;
+                    }
+
+                    current = current.Next;
+                }
+
+                return minIndex;
+            }
+        }
+
+        public int FindValueOfMaxElem()
+        {
+            return FindIndexOfMaxElem();
+        }
+
+        public int FindValueOfMinElem()
+        {
+            return FindIndexOfMinElem();
+        }
+
         public override string ToString()
         {
             if (Length != 0)
@@ -156,7 +365,7 @@ namespace Lists
             }
         }
 
-        //public override bool Equals1(object obj)
+        //public override bool Equals(object obj)
         //{
         //    LinkedList list = (LinkedList)obj;
 
@@ -207,7 +416,7 @@ namespace Lists
                 return isEqual;
             }
 
-            throw new ArgumentException("obj is not LinkedList");
+            throw new ArgumentException("obj is not List");
         }
 
         private Node GetNodeByIndex(int index)
@@ -220,5 +429,6 @@ namespace Lists
             }
             return current;
         }
+
     }
 }
