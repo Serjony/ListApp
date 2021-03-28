@@ -11,25 +11,12 @@ namespace Lists
         {
             get
             {
-                Node current = _root;
-
-                for (int i = 1; i <= index; i++)
-                {
-                    current = current.Next;
-                }
-                return current.Value;
+                return GetNodeByIndex(index).Value;
             }
 
             set
             {
-                Node current = _root;
-
-                for (int i = 1; i <= index; i++)
-                {
-                    current = current.Next;
-                }
-
-                current.Value = value;
+                GetNodeByIndex(index).Value = value;
             }
         }
 
@@ -75,15 +62,23 @@ namespace Lists
 
         public void Add(int value)
         {
+            if (Length != 0)
+            {
+                _tail.Next = new Node(value);
+                _tail = _tail.Next;
+            }
+            else
+            {
+                _root = new Node(value);
+                _tail = _root;
+            }
             Length++;
-            _tail.Next = new Node(value);
-            _tail = _tail.Next;
+            
         }
 
         public void AddValueToStart(int value)
         {
             Length++;
-
             Node first = new Node(value);
 
             first.Next = _root;
@@ -121,7 +116,7 @@ namespace Lists
             }
             else
             {
-                throw new IndexOutOfRangeException("Error");
+                throw new IndexOutOfRangeException("Out of range!");
             }
             
         }
@@ -177,35 +172,63 @@ namespace Lists
 
         public void RemovNElementsFromLast(int nvalue) //Check
         {
-            if (nvalue != Length)
+            if (nvalue < Length)
             {
-                Node current = GetNodeByIndex(Length - nvalue);
-                current.Next = _tail;
+                if (!(nvalue < 0))
+                {
+                    Node current = GetNodeByIndex(Length - nvalue);
+                    current.Next = _tail;
+                    _tail.Next = null;
 
-                Length -= nvalue;
+                    Length -= nvalue;
+                }
+
+                else
+                {
+                    throw new ArgumentException("Invalid value!");
+                }
             }
-            else
+            else if(nvalue==Length)
             {
                 Length = 0;
                 _root = null;
                 _tail = null;
+            }
+            
+            else
+            {
+                throw new IndexOutOfRangeException("Out of range!");
             }
         }
 
         public void RemovNElementsFromStart(int nvalue)
         {
-            if (nvalue!=Length)
+            if (nvalue<Length)
             {
-                Node current = GetNodeByIndex(nvalue - 1);
-                _root = current.Next;
+                if (!(nvalue < 0))
+                {
+                    Node current = GetNodeByIndex(nvalue - 1);
+                    _root = current.Next;
 
-                Length -= nvalue;
+                    Length -= nvalue;
+                }
+
+                else
+                {
+                    throw new ArgumentException("Invalid value!");
+                }
             }
-            else
+
+            else if(nvalue == Length)
             {
                 Length = 0;
                 _root = null;
                 _tail = null;
+            }
+            
+            else
+            {
+                throw new IndexOutOfRangeException("Out of range!");
             }
         }
 
@@ -250,7 +273,7 @@ namespace Lists
             }
             else
             {
-                throw new IndexOutOfRangeException("Error!");
+                throw new IndexOutOfRangeException("Out of range!");
             }
         }
 
@@ -281,40 +304,72 @@ namespace Lists
             }
             else
             {
-                throw new IndexOutOfRangeException("Error");
+                throw new IndexOutOfRangeException("Out of range!");
             }
-            
         }
 
         public void Revers()
         {
-
-        }
-
-        public int FindIndexOfMaxElem()
-        {
-            Node current = _root;
-            int maxIndex = 0;
-            int temp = 0;
-
-            for (int i = 0; i < Length; i++)
+            if (!(this is null))
             {
-                if (temp < current.Value)
+                if (Length > 1)
                 {
-                    maxIndex = i;
-                    temp = current.Value;
+                    Node prev = null;
+                    Node next = null;
+                    Node current = _root;
+                    while (current != null)
+                    {
+                        next = current.Next;
+                        current.Next = prev;
+                        prev = current;
+                        current = next;
+                    }
+                    _root = prev;
                 }
 
-                current = current.Next;
+                else
+                {
+                    Length = 0;
+                    _root = null;
+                    _tail = null;
+                }
             }
+            else
+            {
+                throw new NullReferenceException("Error, null");
+            }
+        }
+        public int FindIndexOfMaxElem()
+        {
+            if (Length != 0 || this is null)
+            {
+                Node current = _root;
+                int maxIndex = 0;
+                int temp = 0;
 
-            return maxIndex;
+                for (int i = 0; i < Length; i++)
+                {
+                    if (temp < current.Value)
+                    {
+                        maxIndex = i;
+                        temp = current.Value;
+                    }
+
+                    current = current.Next;
+                }
+
+                return maxIndex;
+            }
+            else
+            {
+                throw new ArgumentException("List is null");
+            }
         }
 
         public int FindIndexOfMinElem()
         {
+            if (Length != 0 || this is null)
             {
-
                 Node current = _root;
                 int minIndex = 0;
                 int temp = current.Value;
@@ -332,6 +387,10 @@ namespace Lists
 
                 return minIndex;
             }
+            else
+            {
+                throw new ArgumentException("List is null");
+            }
         }
 
         public int FindValueOfMaxElem()
@@ -342,6 +401,146 @@ namespace Lists
         public int FindValueOfMinElem()
         {
             return FindIndexOfMinElem();
+        }
+
+        public void GetSortByAscending()
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                int min = i;
+
+                for (int j = i + 1; j < Length; j++)
+                {
+                    if (GetNodeByIndex(min).Value > GetNodeByIndex(j).Value)
+                    {
+                        min = j;
+                    }
+                }
+
+                int temp = GetNodeByIndex(i).Value;
+                GetNodeByIndex(i).Value = GetNodeByIndex(min).Value;
+                GetNodeByIndex(min).Value = temp;
+            }
+        }
+
+        public void GetDescendingSort()
+        {
+
+        }
+
+        public void RemoveByValueFirst(int value)
+        {
+            int index = GetIndexByValue(value);
+
+            if (!(value == -1))
+            {
+                RemoveByIndex(index);
+            }
+        }
+
+        public void RemoveByValueAll(int value)
+        {
+            int indexOfElements = GetIndexByValue(value);
+
+            while (indexOfElements != -1)
+            {
+                RemoveByIndex(indexOfElements);
+                indexOfElements = GetIndexByValue(value);
+            }
+        }
+
+        public void AddListToTheEnd(LinkedList secondList)
+        {
+            if (Length != 0)
+            {
+                if (secondList != null)
+                {
+                    _tail.Next = secondList._root;
+                    Length += secondList.Length;
+
+                }
+                else
+                {
+                    throw new ArgumentException("No elements in list!");
+                }
+            }
+            else
+            {
+                _root = secondList._root;
+                _tail = secondList._tail;
+
+                Length = secondList.Length;
+            }
+        }
+
+        public void AddListToStart(LinkedList secondList)
+        {
+            if (secondList != null)
+            {
+                if (Length != 0)
+                {
+                    secondList._tail.Next = _root;
+                    _root = secondList._root;
+
+                    Length += secondList.Length;
+                }
+                else
+                {
+                    _root = secondList._root;
+                    _tail = secondList._tail;
+
+                    Length = secondList.Length;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("No elements in list!");
+            }
+            
+            
+        }
+
+        public void AddListByIndex(LinkedList secondList, int index)
+        {
+            if (secondList != null)
+            {
+                if (index >= 0 && index <= Length)
+                {
+                    if (Length !=0)
+                    {
+                        if (index==0)
+                        {
+                            AddListToStart(secondList);
+                        }
+                        else
+                        {
+                            Node current = GetNodeByIndex(index - 1);
+
+                            secondList._tail.Next = current.Next;
+                            current.Next = secondList._root;
+
+                            Length += secondList.Length;
+                        }
+                    }
+                    else
+                    {
+                        _root = secondList._root;
+                        _tail = secondList._tail;
+
+                        Length = secondList.Length;
+                    }
+                }
+
+                else
+                {
+                    throw new IndexOutOfRangeException("Out of range!");
+                }
+            }
+
+            else
+            {
+                throw new ArgumentException("No elements in list!");
+            }
         }
 
         public override string ToString()

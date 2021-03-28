@@ -267,7 +267,7 @@ namespace Lists.Tests
         [TestCase(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 }, new int[] { 1, 2, 3, 4, 5, 6 })]
         [TestCase(new int[] { }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 })]
         [TestCase(new int[] { 1, 2, 3 }, new int[] { }, new int[] { 1, 2, 3 })]
-        public void AddLast_WhenListPassed_ThenAddListInLast(int[] actualArray, int[] arrayForList, int[] expectedArray)
+        public void AddListToTheEnd_WhenListPassed_AddListToTheEnd(int[] actualArray, int[] arrayForList, int[] expectedArray)
         {
             MyArrayList actual = new MyArrayList(actualArray);
             MyArrayList list = new MyArrayList(arrayForList);
@@ -281,7 +281,7 @@ namespace Lists.Tests
         [TestCase(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 }, new int[] { 4, 5, 6, 1, 2, 3 })]
         [TestCase(new int[] { 1, 2, 3 }, new int[] { }, new int[] { 1, 2, 3 })]
         [TestCase(new int[] { }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 })]
-        public void AddFirst_WhenListPassed_ThenAddListInFirst(int[] actualArray, int[] arrayForList, int[] expectedArray)
+        public void AddListToStart_WhenListPassed_AddListToStart(int[] actualArray, int[] arrayForList, int[] expectedArray)
         {
             MyArrayList actual = new MyArrayList(actualArray);
             MyArrayList list = new MyArrayList(arrayForList);

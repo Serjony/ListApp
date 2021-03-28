@@ -418,7 +418,7 @@ namespace ArrayLists
 
             else
             {
-                throw new ArgumentException("List no contains elements");
+                throw new ArgumentException("No elements in list");
             }
         }
 
