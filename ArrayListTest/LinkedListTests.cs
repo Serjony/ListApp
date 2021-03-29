@@ -59,7 +59,6 @@ namespace Lists.Tests
             });
         }
 
-
         [TestCase(new int[] { 1, 2, 3 }, new int[] { 1, 2 })]
         [TestCase(new int[] { 3, 2, 1 }, new int[] { 3, 2 })]
         [TestCase(new int[] { 1 }, new int[] { })]
@@ -90,7 +89,6 @@ namespace Lists.Tests
         [TestCase(0, new int[] { 1, 2, 3 }, new int[] { 2, 3 })]
         [TestCase(2, new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 4, 5 })]
         [TestCase(4, new int[] { 5, 4, 3, 2, 1 }, new int[] { 5, 4, 3, 2 })]
-
         public void RemoveByIndex_WhenIndex_RemoveElementByIndex(int index, int[] actualArray, int[] expectedArray)
         {
             LinkedList actual = new LinkedList(actualArray);
@@ -117,7 +115,6 @@ namespace Lists.Tests
         [TestCase(1, new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4 })]
         [TestCase(2, new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3 })]
         [TestCase(4, new int[] { 1, 2, 3, 4, 5 }, new int[] { 1 })]
-
         public void Remove_NElementsFromLast_WhenNElements_RemoveNElements(int nvalue, int[] actualArray, int[] expectedArray)
         {
             LinkedList actual = new LinkedList(actualArray);

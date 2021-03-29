@@ -34,10 +34,6 @@ namespace ArrayLists
 
         private int[] _array;
 
-        //private const int indexZero = 0;
-
-        //private const int shiftOne = 1;
-
         public MyArrayList()
         {
             Length = 0;
@@ -63,8 +59,6 @@ namespace ArrayLists
 
             Resize();
         }
-
-
 
         public void AddValueToLast(int value)
         {
@@ -131,6 +125,10 @@ namespace ArrayLists
                 Length--;
             }
 
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
             Resize();
         }
 
@@ -139,12 +137,17 @@ namespace ArrayLists
 
             for (int i = 1; i <= Length; i++)
             {
-                _array[i-1] = _array[i];
+                _array[i - 1] = _array[i];
             }
 
             if (!(Length == 0))
             {
                 Length--;
+            }
+
+            else
+            {
+                throw new IndexOutOfRangeException();
             }
 
             Resize();
@@ -171,48 +174,92 @@ namespace ArrayLists
             }
         }
 
-        public void RemovNElementsFromLast(int Nvalue)
+        public void RemovNElementsFromLast(int nvalue)
         {
-            if (Nvalue < Length && Nvalue >= 0)
+            if (nvalue < Length)
             {
-                Length -= Nvalue;
+                if (!(nvalue < 0))
+                {
+                    Length -= nvalue;
+                    Resize();
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid value!");
+                }
+            }
 
-                Resize();
+            else if (nvalue == Length)
+            {
+                Length = 0;
+                _array = new int[10];
+            }
+
+            else
+            {
+                throw new IndexOutOfRangeException("Index out of range!");
             }
         }
 
-        public void RemovNElementsFromStart(int Nvalue)
+        public void RemovNElementsFromStart(int nvalue)
         {
-            if (Nvalue < Length && Nvalue >= 0)
+            if (nvalue < Length)
             {
-
-                for (int i = Nvalue; i <= Length; i++)
+                if (!(nvalue < 0))
                 {
-                    _array[i-Nvalue] = _array[i];
+                    for (int i = nvalue; i <= Length; i++)
+                    {
+                        _array[i - nvalue] = _array[i];
+                    }
+                    Length -= nvalue;
+                    Resize();
                 }
-
-                Length -= Nvalue;
-                Resize();
+                else
+                {
+                    throw new ArgumentException("Invalid value");
+                }
             }
-        }
-
-        public void RemoveByIndexNElements(int Nvalue, int Index) 
-        {
-            if (Index < Length && Index >= 0 && Length-Nvalue>0)
+            else if (nvalue == Length)
             {
-
-                for (int i = Index + Nvalue; i <= Length; i++)
-                {
-                    _array[i - Nvalue] = _array[i];
-                }
-
-                Length -= Nvalue;
-                Resize();
-
+                Length = 0;
+                _array = new int[10];
             }
             else
             {
-              throw new IndexOutOfRangeException();
+                throw new IndexOutOfRangeException("Index out of range!");
+            }
+        }
+
+        public void RemoveByIndexNElements(int nvalue, int index) 
+        {
+            if (nvalue < Length)
+            {
+                if (!(nvalue < 0))
+                {
+                    for (int i = index + nvalue; i <= Length; i++)
+                    {
+                        _array[i - nvalue] = _array[i];
+                    }
+
+                    Length -= nvalue;
+                    Resize();
+                }
+
+                else
+                {
+                    throw new ArgumentException("Invalid value");
+                }
+            }
+
+            else if (nvalue == Length)
+            {
+                Length = 0;
+                _array = new int[10];
+            }
+
+            else
+            {
+                throw new IndexOutOfRangeException("Index out of range!");
             }
         }
 
@@ -354,6 +401,7 @@ namespace ArrayLists
         public void RemoveByValueAll(int value)
         {
             int indexOfElements = GetFirstIndexByValue(value);
+
             while (indexOfElements != -1)
             {
                 RemoveOneElementByIndex(indexOfElements);
@@ -368,6 +416,11 @@ namespace ArrayLists
                 int lastIndex = Length;
                 AddListByIndex(list, lastIndex);
             }
+
+            else
+            {
+                throw new ArgumentException("Empty list");
+            }
         }
 
         public void AddListToStart(MyArrayList list)
@@ -376,6 +429,11 @@ namespace ArrayLists
             {
                 int firstIndex = 0;
                 AddListByIndex(list, firstIndex);
+            }
+
+            else
+            {
+                throw new ArgumentException("Empty list");
             }
         }
 
@@ -409,13 +467,11 @@ namespace ArrayLists
                         }
                     }
                 }
-
                 else
                 {
                     throw new IndexOutOfRangeException();
                 }
             }
-
             else
             {
                 throw new ArgumentException("No elements in list");
