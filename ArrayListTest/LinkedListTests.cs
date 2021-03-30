@@ -386,7 +386,6 @@ namespace Lists.Tests
         [TestCase(new int[] { 1 }, new int[] { 4, 5, 6 }, new int[] { 1, 4, 5, 6 })]
         [TestCase(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 }, new int[] { 1, 2, 3, 4, 5, 6 })]
         [TestCase(new int[] { }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 })]
-        [TestCase(new int[] { 1, 2, 3 }, new int[] { }, new int[] { 1, 2, 3 })]
         public void AddListToTheEnd_WhenListPassed_AddListToTheEnd(int[] actualArray, int[] arrayForList, int[] expectedArray)
         {
             LinkedList actual = new LinkedList(actualArray);
@@ -449,7 +448,7 @@ namespace Lists.Tests
             Assert.AreEqual(expectedArrayList, actual);
         }
 
-        [TestCase(new int[] { 1, 2, 3 }, new int[] { })]
+        [TestCase(new int[] { 1, 2, 3 }, 2, new int[] { })]
         public void AddListByIndex_WhenMethodCalled_ReturnArgumentException(int[] actualArray, int index, int[] arrayForList)
         {
             Assert.Throws<ArgumentException>(() =>

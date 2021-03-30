@@ -278,7 +278,7 @@ namespace Lists.Tests
             });
         }
 
-        [TestCase(new int[] { 5, 2, 3 }, 2)]
+        [TestCase(new int[] { 5, 2, 3 }, 1)]
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, 0)]
         [TestCase(new int[] { 8, 7, 6, 5, 4, 3, 2, 1 }, 7)]
         public void FindMinIndex_WhenMethodCalled_ReturnMaxIndex(int[] actualArray, int expected)

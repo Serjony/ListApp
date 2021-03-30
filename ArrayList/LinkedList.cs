@@ -324,6 +324,8 @@ namespace Lists
                         prev = current;
                         current = next;
                     }
+
+                    _tail = _root;
                     _root = prev;
                 }
 
@@ -425,7 +427,22 @@ namespace Lists
 
         public void GetDescendingSort()
         {
+            for (int i = 0; i < Length; i++)
+            {
+                int max = i;
 
+                for (int j = i + 1; j < Length; j++)
+                {
+                    if (GetNodeByIndex(max).Value < GetNodeByIndex(j).Value)
+                    {
+                        max = j;
+                    }
+                }
+
+                int temp = GetNodeByIndex(i).Value;
+                GetNodeByIndex(i).Value = GetNodeByIndex(max).Value;
+                GetNodeByIndex(max).Value = temp;
+            }
         }
 
         public void RemoveByValueFirst(int value)
@@ -453,17 +470,19 @@ namespace Lists
         {
             if (Length != 0)
             {
-                if (secondList != null)
+                if (secondList.Length != 0)
                 {
                     _tail.Next = secondList._root;
                     Length += secondList.Length;
 
                 }
+
                 else
                 {
                     throw new ArgumentException("No elements in list!");
                 }
             }
+
             else
             {
                 _root = secondList._root;
@@ -475,34 +494,34 @@ namespace Lists
 
         public void AddListToStart(LinkedList secondList)
         {
-            if (secondList != null)
+            if (Length != 0)
             {
-                if (Length != 0)
+                if (secondList.Length != 0)
                 {
                     secondList._tail.Next = _root;
                     _root = secondList._root;
 
                     Length += secondList.Length;
                 }
+
                 else
                 {
-                    _root = secondList._root;
-                    _tail = secondList._tail;
-
-                    Length = secondList.Length;
+                    throw new ArgumentException("No elements in list!");
                 }
             }
+
             else
             {
-                throw new ArgumentException("No elements in list!");
+                _root = secondList._root;
+                _tail = secondList._tail;
+
+                Length = secondList.Length;
             }
-            
-            
         }
 
         public void AddListByIndex(LinkedList secondList, int index)
         {
-            if (secondList != null)
+            if (secondList.Length != 0)
             {
                 if (index >= 0 && index <= Length)
                 {
@@ -512,6 +531,7 @@ namespace Lists
                         {
                             AddListToStart(secondList);
                         }
+
                         else
                         {
                             Node current = GetNodeByIndex(index - 1);
@@ -522,6 +542,7 @@ namespace Lists
                             Length += secondList.Length;
                         }
                     }
+
                     else
                     {
                         _root = secondList._root;
@@ -564,32 +585,6 @@ namespace Lists
             }
         }
 
-        //public override bool Equals(object obj)
-        //{
-        //    LinkedList list = (LinkedList)obj;
-
-        //    if (this.Length != list.Length)
-        //    {
-        //        return false;
-        //    }
-
-        //    Node currentThis = this._root;
-        //    Node currentList = list._root;
-
-        //    do
-        //    {
-        //        if (currentThis.Value != currentList.Value)
-        //        {
-        //            return false;
-        //        }
-        //        currentList = currentList.Next;
-        //        currentThis = currentThis.Next;
-        //    }
-        //    while (!(currentThis.Next is null));
-
-        //    return true;
-        //}
-
         public override bool Equals(object obj)
         {
             if (obj is LinkedList || obj is null)
@@ -612,6 +607,7 @@ namespace Lists
                         currentList = currentList.Next;
                     }
                 }
+
                 return isEqual;
             }
 
