@@ -58,6 +58,7 @@ namespace Lists
                 _root = null;
                 _tail = null;
             }
+
         }
 
         public void Add(int value)
@@ -78,11 +79,22 @@ namespace Lists
 
         public void AddValueToStart(int value)
         {
-            Length++;
-            Node first = new Node(value);
+            if (Length != 0)
+            {
+                Length++;
+                Node first = new Node(value);
 
-            first.Next = _root;
-            _root = first;
+                first.Next = _root;
+                _root = first;
+            }
+
+            else
+            {
+                _root = new Node(value);
+                _tail = _root;
+                Length++;
+            }
+            
         }
 
         public void AddValueByIndex(int value, int index)
