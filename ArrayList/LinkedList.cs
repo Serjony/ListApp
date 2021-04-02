@@ -36,7 +36,7 @@ namespace Lists
             _tail = _root;
         }
 
-        public LinkedList(int[] values)
+        private LinkedList(int[] values)
         {
             //if(values is null)
 
@@ -59,6 +59,15 @@ namespace Lists
                 _tail = null;
             }
 
+        }
+        public static LinkedList Create(int[] values)
+        {
+            if (!(values is null))
+            {
+                return new LinkedList(values);
+            }
+
+            throw new NullReferenceException("Values is null");
         }
 
         public void Add(int value)

@@ -36,7 +36,7 @@ namespace Lists
             _tail = _root;
         }
 
-        public DoubleLinkedList(int[] values)
+        private DoubleLinkedList(int[] values)
         {
             //if(values is null)
 
@@ -61,6 +61,16 @@ namespace Lists
                 _tail = null;
             }
 
+        }
+
+        public static DoubleLinkedList Create(int[] values)
+        {
+            if (!(values is null))
+            {
+                return new DoubleLinkedList(values);
+            }
+
+            throw new NullReferenceException("Values is null");
         }
 
         public void Add(int value)
@@ -231,7 +241,7 @@ namespace Lists
             }
         }
 
-        public void RemovNElementsFromLast(int nvalue) //Check
+        public void RemovNElementsFromLast(int nvalue)
         {
             if (nvalue < Length)
             {
@@ -376,19 +386,22 @@ namespace Lists
             {
                 if (Length > 1)
                 {
-                    DoubleNode prev = null;
-                    DoubleNode next = null;
                     DoubleNode current = _root;
-                    while (current != null)
-                    {
-                        next = current.Next;
-                        current.Next = prev;
-                        prev = current;
-                        current = next;
-                    }
+                    DoubleNode tmp = _tail;
+                    int value;
+                    int count = 0;
 
-                    _tail = _root;
-                    _root = prev;
+                    while (count != Length / 2)
+                    {
+                        value = current.Value;
+                        current.Value = tmp.Value;
+                        tmp.Value = value;
+
+                        current = current.Next;
+                        tmp = tmp.Previous;
+
+                        ++count;
+                    }
                 }
 
                 else
@@ -682,17 +695,6 @@ namespace Lists
             throw new ArgumentException("obj is not List");
         }
 
-        private DoubleNode GetNodeByIndexT(int index)
-        {
-            DoubleNode current = _root;
-
-            for (int i = 1; i <= index; i++)
-            {
-                current = current.Next;
-            }
-            return current;
-        }
-
         private DoubleNode GetNodeByIndex(int index)
         {
             DoubleNode current;
@@ -717,70 +719,5 @@ namespace Lists
                 return current;
             }
         }
-
-        //public void GetSortByAscending()
-        //{
-        //    public static Node SortLinkedList(Node head, int count)
-        //    {
-
-
-        //        Node _current = head;
-        //        Node _previous = _current;
-
-        //        Node _min = _current;
-        //        Node _minPrevious = _min;
-
-        //        Node _sortedListHead = null;
-        //        Node _sortedListTail = _sortedListHead;
-
-        //        for (int i = 0; i < count; i++)
-        //        {
-        //            _current = head;
-        //            _min = _current;
-        //            _minPrevious = _min;
-
-
-        //            while (_current != null)
-        //            {
-        //                if (_current.Data < _min.Data)
-        //                {
-        //                    _min = _current;
-        //                    _minPrevious = _previous;
-        //                }
-        //                _previous = _current;
-        //                _current = _current.Next;
-        //            }
-
-
-        //            if (_min == head)
-        //            {
-        //                head = head.Next;
-        //            }
-        //            else if (_min.Next == null) 
-        //            {
-        //                _minPrevious.Next = null;
-        //            }
-        //            else
-        //            {
-        //                _minPrevious.Next = _minPrevious.Next.Next;
-        //            }
-
-
-
-        //            if (_sortedListHead != null)
-        //            {
-        //                _sortedListTail.Next = _min;
-        //                _sortedListTail = _sortedListTail.Next;
-        //            }
-        //            else
-        //            {
-        //                _sortedListHead = _min;
-        //                _sortedListTail = _sortedListHead;
-        //            }
-        //        }
-
-        //        return _sortedListHead;
-        //    }
-        //}
     }
 }

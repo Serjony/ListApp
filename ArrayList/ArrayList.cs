@@ -42,22 +42,30 @@ namespace ArrayLists
 
         public MyArrayList(int value)
         {
-            Length = 0;
+            Length = 1;
             _array = new int[10];
             _array[0] = value;
         }
 
-        public MyArrayList(int[] array)
+        private MyArrayList(int[] array)
         {
-            if (array == null)
+            Length = array.Length;
+
+            _array = new int[Length];
+
+            for (int i = 0; i < Length; i++)
             {
-                throw new ArgumentNullException();
+                _array[i] = array[i];
+            }
+        }
+        public static MyArrayList Create(int[] values)
+        {
+            if (!(values is null))
+            {
+                return new MyArrayList(values);
             }
 
-            Length = array.Length;
-            _array = array;
-
-            Resize();
+            throw new NullReferenceException("Values is null");
         }
 
         public void AddValueToLast(int value)
@@ -135,10 +143,12 @@ namespace ArrayLists
         public void RemoveFirstElement()
         {
 
-            for (int i = 1; i <= Length; i++)
+            for (int i = 1; i < Length; i++)
             {
                 _array[i - 1] = _array[i];
             }
+
+            Resize();
 
             if (!(Length == 0))
             {
@@ -149,25 +159,31 @@ namespace ArrayLists
             {
                 throw new IndexOutOfRangeException();
             }
-
-            Resize();
         }
 
         public void RemoveOneElementByIndex(int index)
         {
             if (index < Length && index >= 0)
             {
-
-                for (int i = index; i < Length; i++)
+                if (index == 0)
                 {
-                    _array[i] = _array[i+1];
+                    RemoveFirstElement();
                 }
+                else if (index == Length - 1)
+                {
+                    RemoveLastElement();
+                }
+                else
+                {
+                    Length--;
+                    for (int i = index; i < Length; i++)
+                    {
+                        _array[i] = _array[i + 1];
+                    }
 
-                Length--;
-
-                Resize();
+                    Resize();
+                }
             }
-           
             else
             {
                 throw new IndexOutOfRangeException();
@@ -207,23 +223,27 @@ namespace ArrayLists
             {
                 if (!(nvalue < 0))
                 {
-                    for (int i = nvalue; i <= Length; i++)
+                    for (int i = nvalue; i < Length; i++)
                     {
                         _array[i - nvalue] = _array[i];
                     }
+
                     Length -= nvalue;
                     Resize();
                 }
+
                 else
                 {
                     throw new ArgumentException("Invalid value");
                 }
             }
+
             else if (nvalue == Length)
             {
                 Length = 0;
                 _array = new int[10];
             }
+
             else
             {
                 throw new IndexOutOfRangeException("Index out of range!");
@@ -236,7 +256,7 @@ namespace ArrayLists
             {
                 if (!(nvalue < 0))
                 {
-                    for (int i = index + nvalue; i <= Length; i++)
+                    for (int i = index + nvalue; i < Length; i++)
                     {
                         _array[i - nvalue] = _array[i];
                     }
