@@ -373,9 +373,9 @@ namespace Lists.Tests
             });
         }
 
-        [TestCase(new int[] { 7, 2, 3, 4, 5 }, 0)]
-        [TestCase(new int[] { 0, 3, 4, 5, 6, 7, 9 }, 6)]
-        [TestCase(new int[] { 2, 6, 1, 4, 5 }, 1)]
+        [TestCase(new int[] { 7, 2, 3, 4, 5 }, 7)]
+        [TestCase(new int[] { 0, 3, 4, 5, 6, 7, 9 }, 9)]
+        [TestCase(new int[] { 2, 6, 1, 4, 5 }, 6)]
         public void FindValueOfMaxElem_WhenMethodCalled_ReturnMaxIndex(int[] actualArray, int expected)
         {
             DoubleLinkedList index = DoubleLinkedList.Create(actualArray);
@@ -384,9 +384,9 @@ namespace Lists.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase(new int[] { 1, 2, 3, 4, 5 }, 0)]
-        [TestCase(new int[] { 2, 3, 4, 5, 6, 7, 1 }, 6)]
-        [TestCase(new int[] { 2, 6, 1, 4, 5 }, 2)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, 1)]
+        [TestCase(new int[] { 2, 3, 4, 5, 6, 7, 10 }, 2)]
+        [TestCase(new int[] { 9, 6, 3, 4, 5 }, 3)]
         public void FindValueOfMinElem_WhenMethodCalled_ReturnValueOfMinElem(int[] actualArray, int expected)
         {
             DoubleLinkedList index = DoubleLinkedList.Create(actualArray);

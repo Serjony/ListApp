@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Text;
 
 namespace ArrayLists
 {
     public class MyArrayList
     {
+        private int[] _array;
         public int Length { get; private set; }
 
         public int this[int index]
@@ -31,8 +33,6 @@ namespace ArrayLists
                 }
             }
         }
-
-        private int[] _array;
 
         public MyArrayList()
         {
@@ -93,7 +93,6 @@ namespace ArrayLists
             }
 
             _array[0] = value;
-
             ++Length;
         }
 
@@ -102,7 +101,6 @@ namespace ArrayLists
             
             if (index <= Length && index >= 0)
             {
-
                 if (Length >= _array.Length)
                 {
                 Resize();
@@ -116,8 +114,6 @@ namespace ArrayLists
                 _array[index] = value;
 
                 ++Length;
-
-
             }
             else
             {
@@ -128,21 +124,20 @@ namespace ArrayLists
 
         public void RemoveLastElement() 
         {
-            if (!(Length == 0))
+            if (Length > 0)
             {
                 Length--;
             }
-
             else
             {
                 throw new IndexOutOfRangeException();
             }
+
             Resize();
         }
 
         public void RemoveFirstElement()
         {
-
             for (int i = 1; i < Length; i++)
             {
                 _array[i - 1] = _array[i];
@@ -150,11 +145,10 @@ namespace ArrayLists
 
             Resize();
 
-            if (!(Length == 0))
+            if (Length > 0)
             {
                 Length--;
             }
-
             else
             {
                 throw new IndexOutOfRangeException();
@@ -176,6 +170,7 @@ namespace ArrayLists
                 else
                 {
                     Length--;
+
                     for (int i = index; i < Length; i++)
                     {
                         _array[i] = _array[i + 1];
@@ -194,7 +189,7 @@ namespace ArrayLists
         {
             if (nvalue < Length)
             {
-                if (!(nvalue < 0))
+                if (nvalue >= 0)
                 {
                     Length -= nvalue;
                     Resize();
@@ -204,13 +199,11 @@ namespace ArrayLists
                     throw new ArgumentException("Invalid value!");
                 }
             }
-
             else if (nvalue == Length)
             {
                 Length = 0;
                 _array = new int[10];
             }
-
             else
             {
                 throw new IndexOutOfRangeException("Index out of range!");
@@ -221,7 +214,7 @@ namespace ArrayLists
         {
             if (nvalue < Length)
             {
-                if (!(nvalue < 0))
+                if (nvalue >= 0)
                 {
                     for (int i = nvalue; i < Length; i++)
                     {
@@ -231,7 +224,6 @@ namespace ArrayLists
                     Length -= nvalue;
                     Resize();
                 }
-
                 else
                 {
                     throw new ArgumentException("Invalid value");
@@ -243,7 +235,6 @@ namespace ArrayLists
                 Length = 0;
                 _array = new int[10];
             }
-
             else
             {
                 throw new IndexOutOfRangeException("Index out of range!");
@@ -252,34 +243,47 @@ namespace ArrayLists
 
         public void RemoveByIndexNElements(int nvalue, int index) 
         {
-            if (nvalue < Length)
+            if (Length == 0)
             {
-                if (!(nvalue < 0))
-                {
-                    for (int i = index + nvalue; i < Length; i++)
-                    {
-                        _array[i - nvalue] = _array[i];
-                    }
-
-                    Length -= nvalue;
-                    Resize();
-                }
-
-                else
-                {
-                    throw new ArgumentException("Invalid value");
-                }
+                throw new InvalidOperationException("The list is empty");
+            }
+            if (index >= Length || index < 0)
+            {
+                throw new IndexOutOfRangeException();
             }
 
-            else if (nvalue == Length)
+            if (nvalue >= Length)
             {
-                Length = 0;
-                _array = new int[10];
-            }
+                Length = Length - (Length - index);
 
+                Resize();
+            }
+            else if (nvalue == 0)
+            {
+                return;
+            }
             else
             {
-                throw new IndexOutOfRangeException("Index out of range!");
+                for (int i = index; i < Length; i++)
+                {
+                    if (i + nvalue >= Length)
+                    {
+                        break;
+                    }
+
+                    _array[i] = _array[i + nvalue];
+                }
+
+                if (Length - index < nvalue)
+                {
+                    Length = Length - (Length - index);
+                }
+                else
+                {
+                    Length = Length - nvalue;
+                }
+
+                Resize();
             }
         }
 
@@ -296,19 +300,11 @@ namespace ArrayLists
             return -1;
         }
 
-        public void GetRevers()
+        public void Revers()
         {
-            int temp;
-            int swapIndex;
-
             for (int i = 0; i < Length / 2; i++)
             {
-                swapIndex = Length - i - 1;
-                temp = _array[i];
-
-                _array[i] = _array[swapIndex];
-
-                _array[swapIndex] = temp;
+                Swap(ref _array[i], ref _array[Length - i - 1]);
             }
         }
 
@@ -316,7 +312,6 @@ namespace ArrayLists
         {
             if (!(Length == 0))
             {
-
                 int maxIndexOfElement = 0;
 
                 for (int i = 1; i < Length; i++)
@@ -337,9 +332,8 @@ namespace ArrayLists
 
         public int FindIndexOfMinElem()
         {
-            if (!(Length == 0))
+            if (Length != 0)
             {
-
                 int minIndexOfElement = 0;
 
                 for (int i = 1; i < Length; i++)
@@ -359,13 +353,33 @@ namespace ArrayLists
         }
 
         public int FindValueOfMaxElem()
-        {  
-            return FindIndexOfMaxElem();
+        {
+            int max = _array[0];
+
+            for (int i = 1; i < _array.Length; i++)
+            {
+                if (max < _array[i])
+                {
+                    max = _array[i];
+                }
+            }
+
+            return max;
         }
 
         public int FindValueOfMinElem()
         {
-            return FindIndexOfMinElem();
+            int min = _array[0];
+
+            for (int i = 1; i < _array.Length; i++)
+            {
+                if (min > _array[i])
+                {
+                    min = _array[i];
+                }
+            }
+
+            return min; ;
         }
 
         public void GetSortByAscending()
@@ -412,7 +426,7 @@ namespace ArrayLists
         {
             int index = GetFirstIndexByValue(value);
 
-            if (!(index == -1))
+            if (index != -1)
             {
                 RemoveOneElementByIndex(index);
             }
@@ -450,7 +464,6 @@ namespace ArrayLists
                 int firstIndex = 0;
                 AddListByIndex(list, firstIndex);
             }
-
             else
             {
                 throw new ArgumentException("Empty list");
@@ -464,12 +477,10 @@ namespace ArrayLists
                 if (index >= 0 && index <= Length)
                 {
                     Length += list.Length;
-                    if (Length >= _array.Length)
-                    {
-                        Resize();
-                    }
+                    Resize();
 
                     int tempLength = list.Length;
+
                     for (int i = Length - 1; i >= index; i--)
                     {
                         if (i + tempLength < _array.Length)
@@ -515,12 +526,17 @@ namespace ArrayLists
             }
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object obj)//test
         {
+            if (obj is null)
+            {
+                throw new ArgumentNullException();
+            }
+
             MyArrayList list = (MyArrayList)obj;
+
             if (this.Length != list.Length)
             {
-
                 return false;
             }
 
@@ -537,15 +553,28 @@ namespace ArrayLists
 
         public override string ToString()
         {
-            string result = string.Empty;
+            StringBuilder result = new StringBuilder();
+
             for (int i = 0; i < Length; i++)
             {
-                result += _array[i] + " ";
-
+                if (i == Length - 1)
+                {
+                    result.Append(_array[i]);
+                }
+                else
+                {
+                    result.Append(_array[i] + " ");
+                }
             }
 
-            result.Trim();
-            return result;
+            return result.ToString();
+        }
+
+        private void Swap(ref int a, ref int b)
+        {
+            int tempValue = a;
+            a = b;
+            b = tempValue;
         }
     }
 }

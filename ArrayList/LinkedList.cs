@@ -6,6 +6,9 @@ namespace Lists
 {
     public class LinkedList
     {
+        private Node _root;
+        private Node _tail;
+
         public int Length { get; private set; }
         public int this[int index]
         {
@@ -13,15 +16,11 @@ namespace Lists
             {
                 return GetNodeByIndex(index).Value;
             }
-
             set
             {
                 GetNodeByIndex(index).Value = value;
             }
         }
-
-        private Node _root;
-        private Node _tail;
 
         public LinkedList()
         {
@@ -38,8 +37,6 @@ namespace Lists
 
         private LinkedList(int[] values)
         {
-            //if(values is null)
-
             Length = values.Length;
 
             if (values.Length != 0)
@@ -96,14 +93,12 @@ namespace Lists
                 first.Next = _root;
                 _root = first;
             }
-
             else
             {
                 _root = new Node(value);
                 _tail = _root;
                 Length++;
             }
-            
         }
 
         public void AddValueByIndex(int value, int index)
@@ -155,7 +150,7 @@ namespace Lists
 
         public void RemoveByIndex(int index)
         {
-            if (index >= 0 && index <= Length)
+            if (index >= 0 && index < Length)
             {
                 if (Length != 0)
                 {
@@ -176,7 +171,6 @@ namespace Lists
                     {
                         RemoveFirst();
                     }
-                    
                 }
                 else
                 {
@@ -191,11 +185,11 @@ namespace Lists
             }
         }
 
-        public void RemovNElementsFromLast(int nvalue) //Check
+        public void RemovNElementsFromLast(int nvalue)
         {
             if (nvalue < Length)
             {
-                if (!(nvalue < 0))
+                if (nvalue >= 0)
                 {
                     Node current = GetNodeByIndex(Length - nvalue);
                     current.Next = _tail;
@@ -203,7 +197,6 @@ namespace Lists
 
                     Length -= nvalue;
                 }
-
                 else
                 {
                     throw new ArgumentException("Invalid value!");
@@ -215,7 +208,6 @@ namespace Lists
                 _root = null;
                 _tail = null;
             }
-            
             else
             {
                 throw new IndexOutOfRangeException("Out of range!");
@@ -226,27 +218,24 @@ namespace Lists
         {
             if (nvalue<Length)
             {
-                if (!(nvalue < 0))
+                if (nvalue >= 0)
                 {
                     Node current = GetNodeByIndex(nvalue - 1);
                     _root = current.Next;
 
                     Length -= nvalue;
                 }
-
                 else
                 {
                     throw new ArgumentException("Invalid value!");
                 }
             }
-
             else if(nvalue == Length)
             {
                 Length = 0;
                 _root = null;
                 _tail = null;
             }
-            
             else
             {
                 throw new IndexOutOfRangeException("Out of range!");
@@ -261,12 +250,10 @@ namespace Lists
                 {
                     RemovNElementsFromStart(nvalue);
                 }
-
-                else if (nvalue == Length - 1)
+                else if (index == Length - 1)
                 {
                     RemovNElementsFromLast(nvalue);
                 }
-
                 else if (nvalue>0)
                 {
                     if (!(nvalue+index>=Length))
@@ -364,7 +351,7 @@ namespace Lists
         }
         public int FindIndexOfMaxElem()
         {
-            if (Length != 0 || this is null)
+            if (Length != 0)
             {
                 Node current = _root;
                 int maxIndex = 0;
@@ -391,7 +378,7 @@ namespace Lists
 
         public int FindIndexOfMinElem()
         {
-            if (Length != 0 || this is null)
+            if (Length != 0)
             {
                 Node current = _root;
                 int minIndex = 0;
@@ -418,12 +405,12 @@ namespace Lists
 
         public int FindValueOfMaxElem()
         {
-            return FindIndexOfMaxElem();
+            return GetNodeByIndex(FindIndexOfMaxElem()).Value;
         }
 
         public int FindValueOfMinElem()
         {
-            return FindIndexOfMinElem();
+            return GetNodeByIndex(FindIndexOfMinElem()).Value;
         }
 
         public void GetSortByAscending()
@@ -524,13 +511,11 @@ namespace Lists
 
                     Length += secondList.Length;
                 }
-
                 else
                 {
                     throw new ArgumentException("No elements in list!");
                 }
             }
-
             else
             {
                 _root = secondList._root;
@@ -552,7 +537,6 @@ namespace Lists
                         {
                             AddListToStart(secondList);
                         }
-
                         else
                         {
                             Node current = GetNodeByIndex(index - 1);
@@ -563,7 +547,6 @@ namespace Lists
                             Length += secondList.Length;
                         }
                     }
-
                     else
                     {
                         _root = secondList._root;
@@ -572,13 +555,11 @@ namespace Lists
                         Length = secondList.Length;
                     }
                 }
-
                 else
                 {
                     throw new IndexOutOfRangeException("Out of range!");
                 }
             }
-
             else
             {
                 throw new ArgumentException("No elements in list!");
@@ -589,16 +570,17 @@ namespace Lists
         {
             if (Length != 0)
             {
-                Node current = _root;
-                string s = current.Value + " ";
+                StringBuilder result = new StringBuilder();
 
-                while (!(current.Next is null))
+                Node current = _root;
+
+                for (int i = 0; i < Length; i++)
                 {
+                    result.Append(current.Value + " ");
                     current = current.Next;
-                    s += current.Value + " ";
                 }
 
-                return s;
+                return result.ToString().TrimEnd();
             }
             else
             {

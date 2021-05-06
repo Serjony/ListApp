@@ -6,6 +6,9 @@ namespace Lists
 {
     public class DoubleLinkedList
     {
+        private DoubleNode _root;
+        private DoubleNode _tail;
+
         public int Length { get; private set; }
         public int this[int index]
         {
@@ -19,9 +22,6 @@ namespace Lists
                 GetNodeByIndex(index).Value = value;
             }
         }
-
-        private DoubleNode _root;
-        private DoubleNode _tail;
 
         public DoubleLinkedList()
         {
@@ -81,7 +81,6 @@ namespace Lists
                 _tail.Next.Previous = _tail;
                 _tail = _tail.Next;
             }
-
             else
             {
                 _root = new DoubleNode(value);
@@ -93,7 +92,6 @@ namespace Lists
 
         public void AddValueToStart(int value)
         {
-
             if (Length != 0)
             {
                 DoubleNode first = new DoubleNode(value);
@@ -102,7 +100,6 @@ namespace Lists
                 first.Next = _root;
                 _root = first;
             }
-
             else
             {
                 _root = new DoubleNode(value);
@@ -158,18 +155,15 @@ namespace Lists
                 DoubleNode current = GetNodeByIndex(Length - 2);
 
                 current.Next = null;
-                //_tail = _tail.Previous;
-                //_tail.Next = null;
+                
                 Length--;
             }
-
             else if(Length==1)
             {
                 Length = 0;
                 _root = null;
                 _tail = null;
             }
-
             else
             {
                 throw new NullReferenceException();
@@ -185,14 +179,12 @@ namespace Lists
 
                 Length--;
             }
-
             else if (Length == 1)
             {
                 Length = 0;
                 _root = null;
                 _tail = null;
             }
-
             else
             {
                 throw new NullReferenceException();
@@ -219,7 +211,6 @@ namespace Lists
                     {
                         RemoveFirst();
                     }
-
                     else
                     {
                         RemoveLastElement();
@@ -265,7 +256,6 @@ namespace Lists
                 _root = null;
                 _tail = null;
             }
-
             else
             {
                 throw new IndexOutOfRangeException("Out of range!");
@@ -283,20 +273,17 @@ namespace Lists
 
                     Length -= nvalue;
                 }
-
                 else
                 {
                     throw new ArgumentException("Invalid value!");
                 }
             }
-
             else if (nvalue == Length)
             {
                 Length = 0;
                 _root = null;
                 _tail = null;
             }
-
             else
             {
                 throw new IndexOutOfRangeException("Out of range!");
@@ -311,12 +298,10 @@ namespace Lists
                 {
                     RemovNElementsFromStart(nvalue);
                 }
-
-                else if (nvalue == Length - 1)
+                else if (index == Length - 1)
                 {
                     RemovNElementsFromLast(nvalue);
                 }
-
                 else if (nvalue > 0)
                 {
                     if (!(nvalue + index >= Length))
@@ -403,7 +388,6 @@ namespace Lists
                         ++count;
                     }
                 }
-
                 else
                 {
                     Length = 0;
@@ -472,12 +456,12 @@ namespace Lists
 
         public int FindValueOfMaxElem()
         {
-            return FindIndexOfMaxElem();
+            return GetNodeByIndex(FindIndexOfMaxElem()).Value;
         }
 
         public int FindValueOfMinElem()
         {
-            return FindIndexOfMinElem();
+            return GetNodeByIndex(FindIndexOfMinElem()).Value;
         }
 
         public void GetSortByAscending()
@@ -554,13 +538,11 @@ namespace Lists
                     Length += secondList.Length;
 
                 }
-
                 else
                 {
                     throw new ArgumentException("No elements in list!");
                 }
             }
-
             else
             {
                 _root = secondList._root;
@@ -708,7 +690,6 @@ namespace Lists
                 }
                 return current;
             }
-
             else
             {
                 current = _root;

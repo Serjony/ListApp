@@ -267,14 +267,14 @@ namespace Lists.Tests
         [TestCase(-5, 2, new int[] { 1, 3, 5, 7 })]
         public void RemoveNElementsByIndex_WhenNElementsPassed_ReturnArgumentException(int nvalue, int index, int[] actualArray)
         {
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Throws<IndexOutOfRangeException>(() =>
             {
                 MyArrayList actual = MyArrayList.Create(actualArray);
                 actual.RemoveByIndexNElements(nvalue, index);
             });
         }
 
-        [TestCase(10, 0, new int[] { 2, 3, 5, 7 })]
+        [TestCase(10, 5, new int[] { 2, 3, 5, 7 })]
         public void RemoveByIndexNElements_WhenNElementsPassed_ReturnIndexOutOfRangeException(int nvalue, int index, int[] actualArray)
         {
             Assert.Throws<IndexOutOfRangeException>(() =>
@@ -305,7 +305,7 @@ namespace Lists.Tests
             MyArrayList actual = MyArrayList.Create(actualArray);
             MyArrayList expected = MyArrayList.Create(expectedArray);
 
-            actual.GetRevers();
+            actual.Revers();
 
             Assert.AreEqual(expected, actual);
         }
@@ -352,9 +352,9 @@ namespace Lists.Tests
             });
         }
 
-        [TestCase(new int[] { 22, 4, -6, 33 }, 3)]
-        [TestCase(new int[] { 3, 5, -2, 28, 16 }, 3)]
-        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 7)]
+        [TestCase(new int[] { 22, 4, -6, 33 }, 33)]
+        [TestCase(new int[] { 3, 5, -2, 28, 16 }, 28)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 8)]
         public void FindMaxElement_WhenMethodCalled_ReturnMaxElement(int[] actualArray, int expected)
         {
             MyArrayList list = MyArrayList.Create(actualArray);
@@ -363,9 +363,9 @@ namespace Lists.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase(new int[] { 52, 2, -1, 23 }, 2)]
+        [TestCase(new int[] { 52, 2, -1, 23 }, -1)]
         [TestCase(new int[] { 3, 5, 2, 28, 16 }, 2)]
-        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 0)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 1)]
         public void FindMinElement_WhenMethodCalled_ReturnMaxElement(int[] actualArray, int expected)
         {
             MyArrayList list = MyArrayList.Create(actualArray);
@@ -494,8 +494,8 @@ namespace Lists.Tests
             });
         }
 
-        [TestCase(new int[] { 2, 4, 6 }, "2 4 6 ")]
-        [TestCase(new int[] { 5 }, "5 ")]
+        [TestCase(new int[] { 2, 4, 6 }, "2 4 6")]
+        [TestCase(new int[] { 5 }, "5")]
         [TestCase(new int[] { }, "")]
         public void ToString_WhenArrayListPassed_ShouldString(int[] array, string expected)
         {
@@ -505,5 +505,7 @@ namespace Lists.Tests
 
             Assert.AreEqual(expected, actual);
         }
+
+
     }
 }
